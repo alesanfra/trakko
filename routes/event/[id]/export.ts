@@ -9,8 +9,6 @@ interface Participant {
   ticketNumber: number;
 }
 
-const kv = await Deno.openKv();
-
 function toCsv(participants: Participant[]): string {
     const headers = "TicketNumber,Timestamp,Name,Provenance,Category";
     const rows = participants.map(p => 
@@ -21,6 +19,7 @@ function toCsv(participants: Participant[]): string {
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
+    const kv = await Deno.openKv();
     const { id } = ctx.params;
     const participantsRes = await kv.get<Participant[]>(["participants", id]);
     const participants = participantsRes.value ?? [];
