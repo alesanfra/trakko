@@ -4,52 +4,52 @@ import { State } from "../_middleware.ts";
 import DeleteEventButton from "../../islands/DeleteEventButton.tsx";
 
 interface Event {
-    id: string;
-    name: string;
-    categories: string[];
+  id: string;
+  name: string;
+  categories: string[];
 }
 
 export const handler: Handlers<{ events: Event[] } | null, State> = {
-    async GET(_req, ctx) {
-        const kv = await Deno.openKv();
-        const iter = kv.list<Event>({ prefix: ["events"] });
-        const events: Event[] = [];
-        for await (const res of iter) {
-            events.push({ ...res.value, id: res.key[1] as string });
-        }
-        
-        return ctx.render({ events });
-    },
-    
-    async POST(req, _ctx) {
-        const form = await req.formData();
-        const action = form.get("action")?.toString();
-        const eventId = form.get("eventId")?.toString();
-        
-        if (action === "delete" && eventId) {
-            const kv = await Deno.openKv();
-            
-            // Delete the event
-            await kv.delete(["events", eventId]);
-            
-            // Delete all participants for this event
-            await kv.delete(["participants", eventId]);
-            
-            // Optionally, clean up any other related data by iterating through keys
-            // This ensures we catch any other event-related data that might exist
-            const iter = kv.list({ prefix: ["event_data", eventId] });
-            for await (const entry of iter) {
-                await kv.delete(entry.key);
-            }
-            
-            return new Response(null, {
-                status: 303,
-                headers: { Location: "/admin/events" },
-            });
-        }
-        
-        return new Response("Invalid action", { status: 400 });
-    },
+  async GET(_req, ctx) {
+    const kv = await Deno.openKv();
+    const iter = kv.list<Event>({ prefix: ["events"] });
+    const events: Event[] = [];
+    for await (const res of iter) {
+      events.push({ ...res.value, id: res.key[1] as string });
+    }
+
+    return ctx.render({ events });
+  },
+
+  async POST(req, _ctx) {
+    const form = await req.formData();
+    const action = form.get("action")?.toString();
+    const eventId = form.get("eventId")?.toString();
+
+    if (action === "delete" && eventId) {
+      const kv = await Deno.openKv();
+
+      // Delete the event
+      await kv.delete(["events", eventId]);
+
+      // Delete all participants for this event
+      await kv.delete(["participants", eventId]);
+
+      // Optionally, clean up any other related data by iterating through keys
+      // This ensures we catch any other event-related data that might exist
+      const iter = kv.list({ prefix: ["event_data", eventId] });
+      for await (const entry of iter) {
+        await kv.delete(entry.key);
+      }
+
+      return new Response(null, {
+        status: 303,
+        headers: { Location: "/admin/events" },
+      });
+    }
+
+    return new Response("Invalid action", { status: 400 });
+  },
 };
 
 export default function AdminEventsPage(
@@ -82,7 +82,10 @@ export default function AdminEventsPage(
             : (
               <ul class="space-y-3">
                 {events.map((event) => (
-                  <li key={event.id} class="flex items-center justify-between p-4 rounded-md bg-slate-100 dark:bg-slate-700">
+                  <li
+                    key={event.id}
+                    class="flex items-center justify-between p-4 rounded-md bg-slate-100 dark:bg-slate-700"
+                  >
                     <a
                       href={`/event/${event.id}`}
                       class="flex-1 hover:bg-sky-100 dark:hover:bg-sky-800 transition-colors p-2 rounded"
@@ -99,7 +102,10 @@ export default function AdminEventsPage(
                         {event.categories.join(", ")}
                       </p>
                     </a>
-                    <DeleteEventButton eventId={event.id} eventName={event.name} />
+                    <DeleteEventButton
+                      eventId={event.id}
+                      eventName={event.name}
+                    />
                   </li>
                 ))}
               </ul>

@@ -12,11 +12,13 @@ interface Participant {
 const kv = await Deno.openKv();
 
 function toCsv(participants: Participant[]): string {
-    const headers = "TicketNumber,Timestamp,Name,Provenance,Category";
-    const rows = participants.map(p => 
-        `${p.ticketNumber},${p.timestamp},${p.name || ''},${p.provenance || ''},${p.category}`
-    );
-    return `${headers}\n${rows.join('\n')}`;
+  const headers = "TicketNumber,Timestamp,Name,Provenance,Category";
+  const rows = participants.map((p) =>
+    `${p.ticketNumber},${p.timestamp},${p.name || ""},${
+      p.provenance || ""
+    },${p.category}`
+  );
+  return `${headers}\n${rows.join("\n")}`;
 }
 
 export const handler: Handlers = {
@@ -26,10 +28,12 @@ export const handler: Handlers = {
     const participants = participantsRes.value ?? [];
 
     const csv = toCsv(participants);
-    
-    const eventRes = await kv.get<{name: string}>(["events", id]);
-    const eventName = eventRes.value?.name.replace(/\s/g, '_') || 'event';
-    const fileName = `${eventName}_export_${new Date().toISOString().split('T')[0]}.csv`;
+
+    const eventRes = await kv.get<{ name: string }>(["events", id]);
+    const eventName = eventRes.value?.name.replace(/\s/g, "_") || "event";
+    const fileName = `${eventName}_export_${
+      new Date().toISOString().split("T")[0]
+    }.csv`;
 
     return new Response(csv, {
       headers: {

@@ -15,22 +15,22 @@ export default function DeleteEventButton(
 
   const handleDelete = () => {
     isDeleting.value = true;
-    
+
     // Create and submit form
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.style.display = 'none';
-    
-    const actionInput = document.createElement('input');
-    actionInput.type = 'hidden';
-    actionInput.name = 'action';
-    actionInput.value = 'delete';
-    
-    const eventIdInput = document.createElement('input');
-    eventIdInput.type = 'hidden';
-    eventIdInput.name = 'eventId';
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.style.display = "none";
+
+    const actionInput = document.createElement("input");
+    actionInput.type = "hidden";
+    actionInput.name = "action";
+    actionInput.value = "delete";
+
+    const eventIdInput = document.createElement("input");
+    eventIdInput.type = "hidden";
+    eventIdInput.name = "eventId";
     eventIdInput.value = eventId;
-    
+
     form.appendChild(actionInput);
     form.appendChild(eventIdInput);
     document.body.appendChild(form);
@@ -56,9 +56,13 @@ export default function DeleteEventButton(
             </h2>
             <p class="mb-4 text-slate-700 dark:text-slate-300">
               Are you sure you want to delete the event
-              <strong class="font-bold"> "{eventName}" </strong>?
-              <br /><br />
-              <strong class="text-red-600 dark:text-red-400">This action is irreversible and will permanently remove all event data.</strong>
+              <strong class="font-bold">"{eventName}"</strong>?
+              <br />
+              <br />
+              <strong class="text-red-600 dark:text-red-400">
+                This action is irreversible and will permanently remove all
+                event data.
+              </strong>
             </p>
             <div class="flex justify-end space-x-4">
               <button

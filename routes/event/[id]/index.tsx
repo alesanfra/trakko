@@ -21,7 +21,10 @@ interface Participant {
 
 const kv = await Deno.openKv();
 
-export const handler: Handlers<(EventData & { participants: Participant[] }) | null, State> = {
+export const handler: Handlers<
+  (EventData & { participants: Participant[] }) | null,
+  State
+> = {
   async GET(_req, ctx) {
     const { id } = ctx.params;
     const eventRes = await kv.get<EventData>(["events", id]);
@@ -29,7 +32,7 @@ export const handler: Handlers<(EventData & { participants: Participant[] }) | n
     if (!eventRes.value) {
       return ctx.render(null);
     }
-    
+
     const participantsRes = await kv.get<Participant[]>(["participants", id]);
     const participants = participantsRes.value ?? [];
 
@@ -43,20 +46,20 @@ export const handler: Handlers<(EventData & { participants: Participant[] }) | n
     const category = form.get("category") as string;
 
     const kv = await Deno.openKv();
-    
+
     // Use atomic operation to ensure ticket number uniqueness
     const participantsKey = ["participants", id];
-    
+
     let success = false;
     let attempts = 0;
     const maxAttempts = 10;
-    
+
     while (!success && attempts < maxAttempts) {
       attempts++;
-      
+
       const participantsRes = await kv.get<Participant[]>(participantsKey);
       const currentParticipants = participantsRes.value ?? [];
-      
+
       const newParticipant: Participant = {
         timestamp: new Date().toISOString(),
         name,
@@ -70,25 +73,32 @@ export const handler: Handlers<(EventData & { participants: Participant[] }) | n
         .check(participantsRes)
         .set(participantsKey, [...currentParticipants, newParticipant])
         .commit();
-        
+
       success = result.ok;
     }
-    
+
     if (!success) {
-      return new Response("Failed to add participant after multiple attempts", { status: 500 });
+      return new Response("Failed to add participant after multiple attempts", {
+        status: 500,
+      });
     }
 
     // Redirect back to the same page to show the updated count
     return new Response(null, {
-        status: 303,
-        headers: {
-            Location: `/event/${id}${ctx.url.search}` // Preserve view
-        }
+      status: 303,
+      headers: {
+        Location: `/event/${id}${ctx.url.search}`, // Preserve view
+      },
     });
-  }
+  },
 };
 
-export default function EventPage({ data, params, state, url }: PageProps<(EventData & { participants: Participant[] }) | null, State>) {
+export default function EventPage(
+  { data, params, state, url }: PageProps<
+    (EventData & { participants: Participant[] }) | null,
+    State
+  >,
+) {
   const { t } = state;
   if (!data) {
     return <h1>{t.event_not_found}</h1>;
@@ -99,34 +109,62 @@ export default function EventPage({ data, params, state, url }: PageProps<(Event
   return (
     <>
       <Head>
-        <title>{t.event_page_title.replace('{eventName}', data.name)}</title>
+        <title>{t.event_page_title.replace("{eventName}", data.name)}</title>
       </Head>
       <div class="min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white flex flex-col items-center p-4">
         <div class="w-full max-w-4xl">
           <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
             <div class="flex items-center">
-              <h1 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-200">{data.name}</h1>
-              <RealtimeUpdater 
+              <h1 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-200">
+                {data.name}
+              </h1>
+              <RealtimeUpdater
                 eventId={params.id}
                 initialParticipants={data.participants}
               />
             </div>
             <div class="flex-shrink-0 flex gap-2">
-                <a href={`/event/${params.id}?view=add`} class={`px-4 py-2 rounded-md text-sm font-semibold ${view === 'add' ? 'bg-sky-600 text-white shadow' : 'bg-white dark:bg-slate-700'}`}>Add Participant</a>
-                <a href={`/event/${params.id}?view=list`} class={`px-4 py-2 rounded-md text-sm font-semibold ${view === 'list' ? 'bg-sky-600 text-white shadow' : 'bg-white dark:bg-slate-700'}`}>List Participants</a>
+              <a
+                href={`/event/${params.id}?view=add`}
+                class={`px-4 py-2 rounded-md text-sm font-semibold ${
+                  view === "add"
+                    ? "bg-sky-600 text-white shadow"
+                    : "bg-white dark:bg-slate-700"
+                }`}
+              >
+                Add Participant
+              </a>
+              <a
+                href={`/event/${params.id}?view=list`}
+                class={`px-4 py-2 rounded-md text-sm font-semibold ${
+                  view === "list"
+                    ? "bg-sky-600 text-white shadow"
+                    : "bg-white dark:bg-slate-700"
+                }`}
+              >
+                List Participants
+              </a>
             </div>
           </div>
 
           <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 md:p-8 border-4 border-sky-500 mb-8">
-            {view === 'add' && (
+            {view === "add" && (
               <>
                 <p class="text-2xl text-center text-slate-600 dark:text-slate-300 mb-6">
-                  {t.current_ticket_label}: <span class="font-bold text-indigo-500 dark:text-indigo-400">#{data.participants.length + 1}</span>
+                  {t.current_ticket_label}:{" "}
+                  <span class="font-bold text-indigo-500 dark:text-indigo-400">
+                    #{data.participants.length + 1}
+                  </span>
                 </p>
                 <form method="POST" class="space-y-8">
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" class="text-lg font-semibold mb-2 block">{t.name_label}</label>
+                      <label
+                        htmlFor="name"
+                        class="text-lg font-semibold mb-2 block"
+                      >
+                        {t.name_label}
+                      </label>
                       <input
                         type="text"
                         id="name"
@@ -136,7 +174,12 @@ export default function EventPage({ data, params, state, url }: PageProps<(Event
                       />
                     </div>
                     <div>
-                      <label htmlFor="provenance" class="text-lg font-semibold mb-2 block">Provenance (Optional)</label>
+                      <label
+                        htmlFor="provenance"
+                        class="text-lg font-semibold mb-2 block"
+                      >
+                        Provenance (Optional)
+                      </label>
                       <input
                         type="text"
                         id="provenance"
@@ -148,8 +191,13 @@ export default function EventPage({ data, params, state, url }: PageProps<(Event
                   </div>
 
                   <div>
-                    <label class="text-lg font-semibold mb-3 block">{t.category_label}</label>
-                    <CategorySelector categories={data.categories} name="category" />
+                    <label class="text-lg font-semibold mb-3 block">
+                      {t.category_label}
+                    </label>
+                    <CategorySelector
+                      categories={data.categories}
+                      name="category"
+                    />
                   </div>
 
                   <div>
@@ -164,14 +212,22 @@ export default function EventPage({ data, params, state, url }: PageProps<(Event
               </>
             )}
 
-            {view === 'list' && (
-              <ParticipantsTable participants={data.participants} categories={data.categories} eventId={params.id} t={state.t} />
+            {view === "list" && (
+              <ParticipantsTable
+                participants={data.participants}
+                categories={data.categories}
+                eventId={params.id}
+                t={state.t}
+              />
             )}
           </div>
-          
+
           <div class="text-center">
-             <a href={`/event/${params.id}/export`} class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-                {t.export_csv_button}
+            <a
+              href={`/event/${params.id}/export`}
+              class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+            >
+              {t.export_csv_button}
             </a>
           </div>
         </div>

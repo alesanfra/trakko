@@ -5,10 +5,10 @@ export type Translations = typeof it;
 export type Locales = keyof typeof locales;
 
 const locales = {
-    en,
-    it,
+  en,
+  it,
 };
 
 export async function loadLocales(): Promise<Record<Locales, Translations>> {
-    return await Promise.resolve(locales);
+  return await Promise.resolve(locales);
 }

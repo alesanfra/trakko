@@ -12,7 +12,7 @@ interface Participant {
 export const handler: Handlers = {
   GET(_req, ctx) {
     const { eventId } = ctx.params;
-    
+
     // Set up Server-Sent Events
     const headers = new Headers({
       "Content-Type": "text/event-stream",
@@ -26,19 +26,24 @@ export const handler: Handlers = {
       async start(controller) {
         const kv = await Deno.openKv();
         let isClosed = false;
-        
+
         // Send initial data
-        const participantsRes = await kv.get<Participant[]>(["participants", eventId]);
+        const participantsRes = await kv.get<Participant[]>([
+          "participants",
+          eventId,
+        ]);
         const participants = participantsRes.value ?? [];
-        
+
         const encoder = new TextEncoder();
-        
+
         try {
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({
-            type: "participants_update",
-            participants,
-            count: participants.length
-          })}\n\n`));
+          controller.enqueue(encoder.encode(`data: ${
+            JSON.stringify({
+              type: "participants_update",
+              participants,
+              count: participants.length,
+            })
+          }\n\n`));
         } catch (error) {
           console.log("Failed to send initial data:", error);
           return;
@@ -46,19 +51,21 @@ export const handler: Handlers = {
 
         // Watch for changes
         const watchIterator = kv.watch([["participants", eventId]]);
-        
+
         try {
           for await (const [entry] of watchIterator) {
             if (isClosed) break;
-            
+
             const participants = entry.value as Participant[] ?? [];
-            
+
             try {
-              controller.enqueue(encoder.encode(`data: ${JSON.stringify({
-                type: "participants_update", 
-                participants,
-                count: participants.length
-              })}\n\n`));
+              controller.enqueue(encoder.encode(`data: ${
+                JSON.stringify({
+                  type: "participants_update",
+                  participants,
+                  count: participants.length,
+                })
+              }\n\n`));
             } catch (_error) {
               console.log("Client disconnected, stopping watch");
               isClosed = true;
@@ -71,10 +78,10 @@ export const handler: Handlers = {
           }
         }
       },
-      
+
       cancel() {
         console.log("SSE connection closed");
-      }
+      },
     });
 
     return new Response(body, { headers });

@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
-import { Translations, loadLocales } from "../locales/mod.ts";
+import { loadLocales, Translations } from "../locales/mod.ts";
 
 export interface State {
   t: Translations;

@@ -1,7 +1,7 @@
 // islands/EventActions.tsx
 import { useState } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import { Translations } from "../routes/_middleware.ts";
+import { Translations } from "../locales/mod.ts";
 
 interface EventActionsProps {
   eventUrl: string;
@@ -9,7 +9,9 @@ interface EventActionsProps {
   t: Translations;
 }
 
-export default function EventActions({ eventUrl, fullUrl, t }: EventActionsProps) {
+export default function EventActions(
+  { eventUrl, fullUrl, t }: EventActionsProps,
+) {
   const [copied, setCopied] = useState(false);
 
   const copyLink = () => {

@@ -9,7 +9,10 @@ export const handler: Handlers = {
     const form = await req.formData();
     const eventName = form.get("name") as string;
     const categoriesStr = form.get("categories") as string;
-    const categories = categoriesStr.split(",").map((s) => s.trim()).slice(0, 10);
+    const categories = categoriesStr.split(",").map((s) => s.trim()).slice(
+      0,
+      10,
+    );
 
     const idBuffer = new Uint8Array(8);
     crypto.getRandomValues(idBuffer);

@@ -20,15 +20,15 @@ export const handler: Handlers = {
 
     const kv = await Deno.openKv();
     const participantsKey = ["participants", eventId];
-    
+
     let success = false;
     let attempts = 0;
     const maxAttempts = 10;
     let updatedParticipant;
-    
+
     while (!success && attempts < maxAttempts) {
       attempts++;
-      
+
       const participantsRes = await kv.get<Participant[]>(participantsKey);
       const participants = participantsRes.value;
 
@@ -36,20 +36,22 @@ export const handler: Handlers = {
         return new Response("Participants not found", { status: 404 });
       }
 
-      const participantIndex = participants.findIndex(p => p.ticketNumber === ticketNum);
+      const participantIndex = participants.findIndex((p) =>
+        p.ticketNumber === ticketNum
+      );
 
       if (participantIndex === -1) {
         return new Response("Participant not found", { status: 404 });
       }
 
       const updates = await req.json();
-      
+
       // Update the participant record
       participants[participantIndex] = {
         ...participants[participantIndex],
         ...updates,
       };
-      
+
       updatedParticipant = participants[participantIndex];
 
       // Use atomic operation to prevent race conditions
@@ -57,12 +59,15 @@ export const handler: Handlers = {
         .check(participantsRes)
         .set(participantsKey, participants)
         .commit();
-        
+
       success = result.ok;
     }
-    
+
     if (!success) {
-      return new Response("Failed to update participant after multiple attempts", { status: 500 });
+      return new Response(
+        "Failed to update participant after multiple attempts",
+        { status: 500 },
+      );
     }
 
     return new Response(JSON.stringify(updatedParticipant), {

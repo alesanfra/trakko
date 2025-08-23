@@ -21,18 +21,20 @@ export default function RealtimeParticipants({
   initialParticipants,
   categories,
   t,
-  view
+  view,
 }: RealtimeParticipantsProps) {
-  const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
+  const [participants, setParticipants] = useState<Participant[]>(
+    initialParticipants,
+  );
   const [isConnected, setIsConnected] = useState(false);
-  
+
   useEffect(() => {
     const eventSource = new EventSource(`/api/events/${eventId}/watch`);
-    
+
     eventSource.onopen = () => {
       setIsConnected(true);
     };
-    
+
     eventSource.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
@@ -43,11 +45,11 @@ export default function RealtimeParticipants({
         console.error("Error parsing SSE data:", error);
       }
     };
-    
+
     eventSource.onerror = () => {
       setIsConnected(false);
     };
-    
+
     return () => {
       eventSource.close();
     };
@@ -55,22 +57,33 @@ export default function RealtimeParticipants({
 
   const currentTicketNumber = participants.length + 1;
 
-  if (view === 'add') {
+  if (view === "add") {
     return (
       <div>
         <div class="flex items-center justify-between mb-4">
           <p class="text-2xl text-center text-slate-600 dark:text-slate-300">
-            {t.current_ticket_label}: <span class="font-bold text-indigo-500 dark:text-indigo-400">#{currentTicketNumber}</span>
+            {t.current_ticket_label}:{" "}
+            <span class="font-bold text-indigo-500 dark:text-indigo-400">
+              #{currentTicketNumber}
+            </span>
           </p>
-          <div class={`px-2 py-1 rounded text-xs ${isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-            {isConnected ? 'Live' : 'Disconnected'}
+          <div
+            class={`px-2 py-1 rounded text-xs ${
+              isConnected
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {isConnected ? "Live" : "Disconnected"}
           </div>
         </div>
-        
+
         <form method="POST" class="space-y-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="name" class="text-lg font-semibold mb-2 block">{t.name_label}</label>
+              <label htmlFor="name" class="text-lg font-semibold mb-2 block">
+                {t.name_label}
+              </label>
               <input
                 type="text"
                 id="name"
@@ -80,7 +93,12 @@ export default function RealtimeParticipants({
               />
             </div>
             <div>
-              <label htmlFor="provenance" class="text-lg font-semibold mb-2 block">{t.provenance_label}</label>
+              <label
+                htmlFor="provenance"
+                class="text-lg font-semibold mb-2 block"
+              >
+                {t.provenance_label}
+              </label>
               <input
                 type="text"
                 id="provenance"
@@ -92,7 +110,9 @@ export default function RealtimeParticipants({
           </div>
 
           <div>
-            <label class="text-lg font-semibold mb-3 block">{t.category_label}</label>
+            <label class="text-lg font-semibold mb-3 block">
+              {t.category_label}
+            </label>
             <div class="flex flex-wrap gap-2">
               {categories.map((category, index) => (
                 <label key={category} class="flex items-center">
@@ -125,56 +145,77 @@ export default function RealtimeParticipants({
     );
   }
 
-  if (view === 'list') {
+  if (view === "list") {
     return (
       <div>
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-xl font-semibold">Participants ({participants.length})</h3>
-          <div class={`px-2 py-1 rounded text-xs ${isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-            {isConnected ? 'Live' : 'Disconnected'}
+          <h3 class="text-xl font-semibold">
+            Participants ({participants.length})
+          </h3>
+          <div
+            class={`px-2 py-1 rounded text-xs ${
+              isConnected
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {isConnected ? "Live" : "Disconnected"}
           </div>
         </div>
-        
-        {participants.length === 0 ? (
-          <p class="text-center text-slate-500 py-8">No participants yet.</p>
-        ) : (
-          <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-              <thead>
-                <tr class="bg-slate-100 dark:bg-slate-700">
-                  <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">{t.table_header_ticket}</th>
-                  <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">{t.table_header_name}</th>
-                  <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">{t.table_header_provenance}</th>
-                  <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">{t.table_header_category}</th>
-                  <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">{t.table_header_timestamp}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {participants.map((participant) => (
-                  <tr key={participant.ticketNumber} class="hover:bg-slate-50 dark:hover:bg-slate-700">
-                    <td class="border border-slate-300 dark:border-slate-600 px-4 py-2 font-mono">
-                      #{participant.ticketNumber}
-                    </td>
-                    <td class="border border-slate-300 dark:border-slate-600 px-4 py-2">
-                      {participant.name || t.anonymous}
-                    </td>
-                    <td class="border border-slate-300 dark:border-slate-600 px-4 py-2">
-                      {participant.provenance || '-'}
-                    </td>
-                    <td class="border border-slate-300 dark:border-slate-600 px-4 py-2">
-                      <span class="px-2 py-1 bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200 rounded text-sm">
-                        {participant.category}
-                      </span>
-                    </td>
-                    <td class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-sm">
-                      {new Date(participant.timestamp).toLocaleString()}
-                    </td>
+
+        {participants.length === 0
+          ? <p class="text-center text-slate-500 py-8">No participants yet.</p>
+          : (
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 dark:bg-slate-700">
+                    <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">
+                      {t.table_header_ticket}
+                    </th>
+                    <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">
+                      {t.table_header_name}
+                    </th>
+                    <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">
+                      {t.table_header_provenance}
+                    </th>
+                    <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">
+                      {t.table_header_category}
+                    </th>
+                    <th class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-left">
+                      {t.table_header_timestamp}
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {participants.map((participant) => (
+                    <tr
+                      key={participant.ticketNumber}
+                      class="hover:bg-slate-50 dark:hover:bg-slate-700"
+                    >
+                      <td class="border border-slate-300 dark:border-slate-600 px-4 py-2 font-mono">
+                        #{participant.ticketNumber}
+                      </td>
+                      <td class="border border-slate-300 dark:border-slate-600 px-4 py-2">
+                        {participant.name || t.anonymous}
+                      </td>
+                      <td class="border border-slate-300 dark:border-slate-600 px-4 py-2">
+                        {participant.provenance || "-"}
+                      </td>
+                      <td class="border border-slate-300 dark:border-slate-600 px-4 py-2">
+                        <span class="px-2 py-1 bg-sky-100 dark:bg-sky-800 text-sky-800 dark:text-sky-200 rounded text-sm">
+                          {participant.category}
+                        </span>
+                      </td>
+                      <td class="border border-slate-300 dark:border-slate-600 px-4 py-2 text-sm">
+                        {new Date(participant.timestamp).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
       </div>
     );
   }

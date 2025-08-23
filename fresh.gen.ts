@@ -13,6 +13,7 @@ import * as $admin_logout from "./routes/admin/logout.tsx";
 import * as $api_events from "./routes/api/events.ts";
 import * as $api_events_eventId_tickets_ticketId_ from "./routes/api/events/[eventId]/tickets/[ticketId].ts";
 import * as $api_events_eventId_watch from "./routes/api/events/[eventId]/watch.ts";
+import * as $api_participants_eventId_ticketNumber_ from "./routes/api/participants/[eventId]/[ticketNumber].ts";
 import * as $event_id_created from "./routes/event/[id]/created.tsx";
 import * as $event_id_export from "./routes/event/[id]/export.ts";
 import * as $event_id_index from "./routes/event/[id]/index.tsx";
@@ -40,6 +41,8 @@ const manifest = {
     "./routes/api/events/[eventId]/tickets/[ticketId].ts":
       $api_events_eventId_tickets_ticketId_,
     "./routes/api/events/[eventId]/watch.ts": $api_events_eventId_watch,
+    "./routes/api/participants/[eventId]/[ticketNumber].ts":
+      $api_participants_eventId_ticketNumber_,
     "./routes/event/[id]/created.tsx": $event_id_created,
     "./routes/event/[id]/export.ts": $event_id_export,
     "./routes/event/[id]/index.tsx": $event_id_index,

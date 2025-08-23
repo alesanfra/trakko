@@ -4,7 +4,7 @@ import ThemeSwitcher from "../islands/ThemeSwitcher.tsx";
 
 export default function App({ Component, state }: AppProps<State>) {
   return (
-    <html lang={state.lang}>
+    <html lang={state.lang as string}>
       <head>
         <meta charset="utf-t-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

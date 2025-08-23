@@ -14,14 +14,15 @@ async function hashPassword(password: string): Promise<string> {
   const data = encoder.encode(saltedPassword);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 // Generate session token
 function generateSessionToken(): string {
   const randomData = new Uint8Array(32);
   crypto.getRandomValues(randomData);
-  return Array.from(randomData).map(b => b.toString(16).padStart(2, '0')).join('');
+  return Array.from(randomData).map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 export const handler: Handlers = {
@@ -41,10 +42,10 @@ export const handler: Handlers = {
 
     if (hashedPassword === expectedHash) {
       const sessionToken = generateSessionToken();
-      
+
       // Register the session token as valid
       addValidSession(sessionToken);
-      
+
       const response = new Response(null, {
         status: 303,
         headers: { Location: "/admin/events" },
@@ -70,7 +71,7 @@ export const handler: Handlers = {
 export default function AdminLoginPage({ url }: { url?: URL }) {
   const hasError = url?.searchParams.get("error") === "1";
   const loggedOut = url?.searchParams.get("logout") === "1";
-  
+
   return (
     <div class="min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white p-4 flex items-center justify-center">
       <div class="w-full max-w-md">
@@ -88,7 +89,9 @@ export default function AdminLoginPage({ url }: { url?: URL }) {
           )}
           {hasError && (
             <div class="mb-4 p-3 bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 rounded">
-              <strong>Access Denied:</strong> The password you entered is incorrect. Please verify your password and try again.
+              <strong>Access Denied:</strong>{" "}
+              The password you entered is incorrect. Please verify your password
+              and try again.
             </div>
           )}
           <div class="mb-4">
