@@ -46,7 +46,7 @@ export default function ParticipantsTable({ participants, categories, eventId, t
     const payload = { name, provenance, category };
 
     try {
-      const response = await fetch(`/api/participants/${eventId}/${editingParticipant.ticketNumber}`, {
+      const response = await fetch(`/api/events/${eventId}/tickets/${editingParticipant.ticketNumber}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -60,7 +60,7 @@ export default function ParticipantsTable({ participants, categories, eventId, t
       }
     } catch (error) {
       console.error("Error saving participant:", error);
-      alert(`An error occurred: ${error.message}`);
+      alert(`An error occurred: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setEditingParticipant(null);
     }

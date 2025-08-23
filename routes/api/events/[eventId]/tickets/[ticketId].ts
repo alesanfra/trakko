@@ -11,11 +11,11 @@ interface Participant {
 
 export const handler: Handlers = {
   async PATCH(req, ctx) {
-    const { eventId, ticketNumber } = ctx.params;
-    const ticketNum = parseInt(ticketNumber, 10);
+    const { eventId, ticketId } = ctx.params;
+    const ticketNum = parseInt(ticketId, 10);
 
     if (isNaN(ticketNum)) {
-      return new Response("Invalid ticket number", { status: 400 });
+      return new Response("Invalid ticket ID", { status: 400 });
     }
 
     const kv = await Deno.openKv();

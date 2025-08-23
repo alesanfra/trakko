@@ -10,8 +10,9 @@ import * as $admin_create from "./routes/admin/create.tsx";
 import * as $admin_events from "./routes/admin/events.tsx";
 import * as $admin_index from "./routes/admin/index.tsx";
 import * as $admin_logout from "./routes/admin/logout.tsx";
-import * as $api_create_event from "./routes/api/create_event.ts";
-import * as $api_participants_eventId_ticketNumber_ from "./routes/api/participants/[eventId]/[ticketNumber].ts";
+import * as $api_events from "./routes/api/events.ts";
+import * as $api_events_eventId_tickets_ticketId_ from "./routes/api/events/[eventId]/tickets/[ticketId].ts";
+import * as $api_events_eventId_watch from "./routes/api/events/[eventId]/watch.ts";
 import * as $event_id_created from "./routes/event/[id]/created.tsx";
 import * as $event_id_export from "./routes/event/[id]/export.ts";
 import * as $event_id_index from "./routes/event/[id]/index.tsx";
@@ -20,6 +21,8 @@ import * as $CategorySelector from "./islands/CategorySelector.tsx";
 import * as $DeleteEventButton from "./islands/DeleteEventButton.tsx";
 import * as $EventActions from "./islands/EventActions.tsx";
 import * as $ParticipantsTable from "./islands/ParticipantsTable.tsx";
+import * as $RealtimeParticipants from "./islands/RealtimeParticipants.tsx";
+import * as $RealtimeUpdater from "./islands/RealtimeUpdater.tsx";
 import * as $ThemeSwitcher from "./islands/ThemeSwitcher.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -33,9 +36,10 @@ const manifest = {
     "./routes/admin/events.tsx": $admin_events,
     "./routes/admin/index.tsx": $admin_index,
     "./routes/admin/logout.tsx": $admin_logout,
-    "./routes/api/create_event.ts": $api_create_event,
-    "./routes/api/participants/[eventId]/[ticketNumber].ts":
-      $api_participants_eventId_ticketNumber_,
+    "./routes/api/events.ts": $api_events,
+    "./routes/api/events/[eventId]/tickets/[ticketId].ts":
+      $api_events_eventId_tickets_ticketId_,
+    "./routes/api/events/[eventId]/watch.ts": $api_events_eventId_watch,
     "./routes/event/[id]/created.tsx": $event_id_created,
     "./routes/event/[id]/export.ts": $event_id_export,
     "./routes/event/[id]/index.tsx": $event_id_index,
@@ -46,6 +50,8 @@ const manifest = {
     "./islands/DeleteEventButton.tsx": $DeleteEventButton,
     "./islands/EventActions.tsx": $EventActions,
     "./islands/ParticipantsTable.tsx": $ParticipantsTable,
+    "./islands/RealtimeParticipants.tsx": $RealtimeParticipants,
+    "./islands/RealtimeUpdater.tsx": $RealtimeUpdater,
     "./islands/ThemeSwitcher.tsx": $ThemeSwitcher,
   },
   baseUrl: import.meta.url,

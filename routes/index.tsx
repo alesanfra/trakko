@@ -12,7 +12,7 @@ export default function Home(props: PageProps<null, State>) {
       <div class="min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white flex flex-col items-center justify-center p-4">
         <div class="max-w-md w-full bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8 border-4 border-indigo-500">
           <h1 class="text-5xl font-bold text-center mb-8 text-indigo-600 dark:text-indigo-400">{t.title}</h1>
-          <form action="/api/create_event" method="post" class="space-y-6">
+          <form action="/api/events" method="post" class="space-y-6">
             <div>
               <label htmlFor="name" class="text-lg font-semibold mb-2 block">{t.event_name_label}</label>
               <input
