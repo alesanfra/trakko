@@ -6,12 +6,14 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
 import * as $api_create_event from "./routes/api/create_event.ts";
+import * as $api_participants_eventId_ticketNumber_ from "./routes/api/participants/[eventId]/[ticketNumber].ts";
 import * as $event_id_created from "./routes/event/[id]/created.tsx";
 import * as $event_id_export from "./routes/event/[id]/export.ts";
 import * as $event_id_index from "./routes/event/[id]/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $CategorySelector from "./islands/CategorySelector.tsx";
 import * as $EventActions from "./islands/EventActions.tsx";
+import * as $ParticipantsTable from "./islands/ParticipantsTable.tsx";
 import * as $ThemeSwitcher from "./islands/ThemeSwitcher.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -21,6 +23,8 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/_middleware.ts": $_middleware,
     "./routes/api/create_event.ts": $api_create_event,
+    "./routes/api/participants/[eventId]/[ticketNumber].ts":
+      $api_participants_eventId_ticketNumber_,
     "./routes/event/[id]/created.tsx": $event_id_created,
     "./routes/event/[id]/export.ts": $event_id_export,
     "./routes/event/[id]/index.tsx": $event_id_index,
@@ -29,6 +33,7 @@ const manifest = {
   islands: {
     "./islands/CategorySelector.tsx": $CategorySelector,
     "./islands/EventActions.tsx": $EventActions,
+    "./islands/ParticipantsTable.tsx": $ParticipantsTable,
     "./islands/ThemeSwitcher.tsx": $ThemeSwitcher,
   },
   baseUrl: import.meta.url,

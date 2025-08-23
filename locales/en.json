@@ -22,5 +22,18 @@
   "category_label": "Category",
   "save_record_button": "Save",
   "export_csv_button": "Export to CSV",
-  "event_not_found": "Event not found"
+  "event_not_found": "Event not found",
+  "add_participant_view": "Add Participant",
+  "list_participants_view": "List Participants",
+  "edit_participant_title": "Edit Participant",
+  "save_changes_button": "Save Changes",
+  "cancel_button": "Cancel",
+  "table_header_ticket": "Ticket #",
+  "table_header_name": "Name",
+  "table_header_provenance": "Provenance",
+  "table_header_category": "Category",
+  "table_header_timestamp": "Timestamp",
+  "pagination_previous": "Previous",
+  "pagination_next": "Next",
+  "pagination_page": "Page {currentPage} of {totalPages}"
 }

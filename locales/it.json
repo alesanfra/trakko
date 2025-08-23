@@ -22,5 +22,18 @@
   "category_label": "Categoria",
   "save_record_button": "Salva",
   "export_csv_button": "Esporta in CSV",
-  "event_not_found": "Evento non trovato"
+  "event_not_found": "Evento non trovato",
+  "add_participant_view": "Aggiungi Partecipante",
+  "list_participants_view": "Elenco Partecipanti",
+  "edit_participant_title": "Modifica Partecipante",
+  "save_changes_button": "Salva Modifiche",
+  "cancel_button": "Annulla",
+  "table_header_ticket": "Ticket #",
+  "table_header_name": "Nome",
+  "table_header_provenance": "Provenienza",
+  "table_header_category": "Categoria",
+  "table_header_timestamp": "Data e Ora",
+  "pagination_previous": "Precedente",
+  "pagination_next": "Successivo",
+  "pagination_page": "Pagina {currentPage} di {totalPages}"
 }
