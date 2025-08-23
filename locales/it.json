@@ -35,5 +35,15 @@
   "table_header_timestamp": "Data e Ora",
   "pagination_previous": "Precedente",
   "pagination_next": "Successivo",
-  "pagination_page": "Pagina {currentPage} di {totalPages}"
+  "pagination_page": "Pagina {currentPage} di {totalPages}",
+  "anonymous": "Anonimo",
+  "admin_login_title": "Admin Login",
+  "admin_login_header": "Accesso Amministratore",
+  "password_label": "Password",
+  "login_button": "Accedi",
+  "logout_button": "Esci",
+  "invalid_password": "Password non valida",
+  "admin_events_title": "Eventi Amministratore",
+  "admin_events_header": "Tutti gli Eventi",
+  "no_events_found": "Nessun evento trovato."
 }

@@ -1,23 +1,28 @@
-import { MiddlewareHandlerContext } from "$fresh/server.ts";
+import { FreshContext } from "$fresh/server.ts";
 import { getCookies } from "$std/http/cookie.ts";
-
-import en from "../locales/en.json" with { type: "json" };
-import it from "../locales/it.json" with { type: "json" };
-
-const locales = { en, it };
-
-export type Locales = keyof typeof locales;
-export type Translations = typeof en;
+import { Translations, loadLocales } from "../locales/mod.ts";
 
 export interface State {
-  lang: Locales;
   t: Translations;
 }
 
-const langFromRequest = (req: Request): Locales => {
-  const { lang } = getCookies(req.headers);
+const locales = await loadLocales();
+
+export async function handler(
+  req: Request,
+  ctx: FreshContext<State>,
+) {
+  const lang = getLanguage(req, getCookies(req.headers));
+  ctx.state.t = locales[lang as keyof typeof locales];
+  const resp = await ctx.next();
+  resp.headers.set("Content-Language", lang);
+  return resp;
+}
+
+function getLanguage(req: Request, cookies: Record<string, string>): string {
+  const { lang } = cookies;
   if (lang && lang in locales) {
-    return lang as Locales;
+    return lang;
   }
   const acceptLang = req.headers.get("accept-language");
   if (acceptLang) {
@@ -28,16 +33,4 @@ const langFromRequest = (req: Request): Locales => {
     }
   }
   return "en"; // default
-};
-
-export async function handler(
-  req: Request,
-  ctx: MiddlewareHandlerContext<State>,
-) {
-  const lang = langFromRequest(req);
-  ctx.state.lang = lang;
-  ctx.state.t = locales[lang];
-  const resp = await ctx.next();
-  resp.headers.set("Content-Language", lang);
-  return resp;
 }

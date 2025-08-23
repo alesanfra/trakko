@@ -35,5 +35,15 @@
   "table_header_timestamp": "Timestamp",
   "pagination_previous": "Previous",
   "pagination_next": "Next",
-  "pagination_page": "Page {currentPage} of {totalPages}"
+  "pagination_page": "Page {currentPage} of {totalPages}",
+  "anonymous": "Anonymous",
+  "admin_login_title": "Admin Login",
+  "admin_login_header": "Administrator Access",
+  "password_label": "Password",
+  "login_button": "Login",
+  "logout_button": "Logout",
+  "invalid_password": "Invalid password",
+  "admin_events_title": "Admin Events",
+  "admin_events_header": "All Events",
+  "no_events_found": "No events found."
 }

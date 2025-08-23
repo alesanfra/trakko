@@ -5,6 +5,11 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
+import * as $admin_middleware from "./routes/admin/_middleware.ts";
+import * as $admin_create from "./routes/admin/create.tsx";
+import * as $admin_events from "./routes/admin/events.tsx";
+import * as $admin_index from "./routes/admin/index.tsx";
+import * as $admin_logout from "./routes/admin/logout.tsx";
 import * as $api_create_event from "./routes/api/create_event.ts";
 import * as $api_participants_eventId_ticketNumber_ from "./routes/api/participants/[eventId]/[ticketNumber].ts";
 import * as $event_id_created from "./routes/event/[id]/created.tsx";
@@ -12,6 +17,7 @@ import * as $event_id_export from "./routes/event/[id]/export.ts";
 import * as $event_id_index from "./routes/event/[id]/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $CategorySelector from "./islands/CategorySelector.tsx";
+import * as $DeleteEventButton from "./islands/DeleteEventButton.tsx";
 import * as $EventActions from "./islands/EventActions.tsx";
 import * as $ParticipantsTable from "./islands/ParticipantsTable.tsx";
 import * as $ThemeSwitcher from "./islands/ThemeSwitcher.tsx";
@@ -22,6 +28,11 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/_middleware.ts": $_middleware,
+    "./routes/admin/_middleware.ts": $admin_middleware,
+    "./routes/admin/create.tsx": $admin_create,
+    "./routes/admin/events.tsx": $admin_events,
+    "./routes/admin/index.tsx": $admin_index,
+    "./routes/admin/logout.tsx": $admin_logout,
     "./routes/api/create_event.ts": $api_create_event,
     "./routes/api/participants/[eventId]/[ticketNumber].ts":
       $api_participants_eventId_ticketNumber_,
@@ -32,6 +43,7 @@ const manifest = {
   },
   islands: {
     "./islands/CategorySelector.tsx": $CategorySelector,
+    "./islands/DeleteEventButton.tsx": $DeleteEventButton,
     "./islands/EventActions.tsx": $EventActions,
     "./islands/ParticipantsTable.tsx": $ParticipantsTable,
     "./islands/ThemeSwitcher.tsx": $ThemeSwitcher,

@@ -2,14 +2,14 @@ import { h } from "preact";
 import { useState } from "preact/hooks";
 
 interface CategorySelectorProps {
-  categories: string[];
+  categories?: string[];
   name: string;
   value?: string;
   onChange?: (newValue: string) => void;
 }
 
 export default function CategorySelector(
-  { categories, name, value, onChange }: CategorySelectorProps,
+  { categories = [], name, value, onChange }: CategorySelectorProps,
 ) {
   const isControlled = value !== undefined && onChange !== undefined;
   const [internalSelected, setInternalSelected] = useState(
