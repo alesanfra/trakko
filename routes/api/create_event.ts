@@ -2,9 +2,10 @@
 import { Handlers } from "$fresh/server.ts";
 import { encode } from "../../utils/crockford.ts";
 
+const kv = await Deno.openKv();
+
 export const handler: Handlers = {
   async POST(req) {
-    const kv = await Deno.openKv();
     const form = await req.formData();
     const eventName = form.get("name") as string;
     const categoriesStr = form.get("categories") as string;

@@ -16,9 +16,10 @@ interface Participant {
   ticketNumber: number;
 }
 
+const kv = await Deno.openKv();
+
 export const handler: Handlers<(EventData & { participants: Participant[] }) | null, State> = {
   async GET(_req, ctx) {
-    const kv = await Deno.openKv();
     const { id } = ctx.params;
     const eventRes = await kv.get<EventData>(["events", id]);
 
@@ -32,7 +33,6 @@ export const handler: Handlers<(EventData & { participants: Participant[] }) | n
     return ctx.render({ ...eventRes.value, participants });
   },
   async POST(req, ctx) {
-    const kv = await Deno.openKv();
     const { id } = ctx.params;
     const form = await req.formData();
     const name = form.get("name") as string | undefined;
