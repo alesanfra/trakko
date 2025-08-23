@@ -20,7 +20,7 @@
   "provenance_label": "Provenance (Optional)",
   "provenance_placeholder": "e.g., City, Country",
   "category_label": "Category",
-  "save_record_button": "Save Record",
+  "save_record_button": "Save",
   "export_csv_button": "Export to CSV",
   "event_not_found": "Event not found"
 }

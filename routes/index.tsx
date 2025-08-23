@@ -9,9 +9,9 @@ export default function Home(props: PageProps<null, State>) {
       <Head>
         <title>{t.title}</title>
       </Head>
-      <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-4">
-        <div class="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border-4 border-yellow-400 dark:border-yellow-400">
-          <h1 class="text-5xl font-bold text-center mb-8 text-yellow-500 dark:text-yellow-400">{t.title}</h1>
+      <div class="min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white flex flex-col items-center justify-center p-4">
+        <div class="max-w-md w-full bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8 border-4 border-indigo-500">
+          <h1 class="text-5xl font-bold text-center mb-8 text-indigo-600 dark:text-indigo-400">{t.title}</h1>
           <form action="/api/create_event" method="post" class="space-y-6">
             <div>
               <label htmlFor="name" class="text-lg font-semibold mb-2 block">{t.event_name_label}</label>
@@ -21,7 +21,7 @@ export default function Home(props: PageProps<null, State>) {
                 name="name"
                 maxLength={50}
                 required
-                class="w-full p-3 bg-gray-200 dark:bg-gray-700 rounded-md border-2 border-gray-300 dark:border-gray-600 focus:border-yellow-500 dark:focus:border-yellow-400 focus:outline-none"
+                class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-indigo-500 focus:outline-none"
                 placeholder={t.event_name_placeholder}
               />
             </div>
@@ -34,14 +34,14 @@ export default function Home(props: PageProps<null, State>) {
                 id="categories"
                 name="categories"
                 defaultValue={t.default_categories}
-                class="w-full p-3 bg-gray-200 dark:bg-gray-700 rounded-md border-2 border-gray-300 dark:border-gray-600 focus:border-yellow-500 dark:focus:border-yellow-400 focus:outline-none"
+                class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-indigo-500 focus:outline-none"
                 placeholder={t.categories_placeholder}
               />
-              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{t.categories_helper}</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{t.categories_helper}</p>
             </div>
             <button
               type="submit"
-              class="w-full bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 text-lg"
+              class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-md hover:bg-indigo-700 transition-colors duration-300 text-lg"
             >
               {t.create_event_button}
             </button>

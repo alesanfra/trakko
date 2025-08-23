@@ -35,7 +35,7 @@ export default function ThemeSwitcher() {
     <button
       type="button"
       onClick={toggleTheme}
-      class="fixed top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+      class="fixed top-4 right-4 p-2 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200"
       aria-label="Toggle theme"
     >
       {theme === "light" ? "🌙" : "☀️"}

@@ -2,6 +2,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { State } from "../../../routes/_middleware.ts";
+import CategorySelector from "../../../islands/CategorySelector.tsx";
 
 interface EventData {
   name: string;
@@ -76,49 +77,46 @@ export default function EventPage({ data, params, state }: PageProps<(EventData 
       <Head>
         <title>{t.event_page_title.replace('{eventName}', data.name)}</title>
       </Head>
-      <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center p-4">
+      <div class="min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white flex flex-col items-center p-4">
         <div class="w-full max-w-4xl">
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border-4 border-purple-500 dark:border-purple-500 mb-8">
-            <h1 class="text-4xl font-bold text-center text-purple-600 dark:text-purple-400 mb-2">{data.name}</h1>
-            <p class="text-2xl text-center text-gray-600 dark:text-gray-300 mb-6">
-              {t.current_ticket_label}: <span class="font-bold text-yellow-500 dark:text-yellow-400">#{currentTicketNumber}</span>
+          <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8 border-4 border-sky-500 mb-8">
+            <h1 class="text-4xl font-bold text-center text-sky-600 dark:text-sky-400 mb-2">{data.name}</h1>
+            <p class="text-2xl text-center text-slate-600 dark:text-slate-300 mb-6">
+              {t.current_ticket_label}: <span class="font-bold text-indigo-500 dark:text-indigo-400">#{currentTicketNumber}</span>
             </p>
-            <form method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-              <div class="md:col-span-1">
-                <label htmlFor="name" class="text-lg font-semibold mb-2 block">{t.name_label}</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  class="w-full p-3 bg-gray-200 dark:bg-gray-700 rounded-md border-2 border-gray-300 dark:border-gray-600 focus:border-purple-500 dark:focus:border-purple-500 focus:outline-none"
-                  placeholder={t.name_placeholder}
-                />
+            <form method="POST" class="space-y-8">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" class="text-lg font-semibold mb-2 block">{t.name_label}</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-sky-500 focus:outline-none"
+                    placeholder={t.name_placeholder}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="provenance" class="text-lg font-semibold mb-2 block">{t.provenance_label}</label>
+                  <input
+                    type="text"
+                    id="provenance"
+                    name="provenance"
+                    class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-sky-500 focus:outline-none"
+                    placeholder={t.provenance_placeholder}
+                  />
+                </div>
               </div>
-              <div class="md:col-span-1">
-                <label htmlFor="provenance" class="text-lg font-semibold mb-2 block">{t.provenance_label}</label>
-                <input
-                  type="text"
-                  id="provenance"
-                  name="provenance"
-                  class="w-full p-3 bg-gray-200 dark:bg-gray-700 rounded-md border-2 border-gray-300 dark:border-gray-600 focus:border-purple-500 dark:focus:border-purple-500 focus:outline-none"
-                  placeholder={t.provenance_placeholder}
-                />
+
+              <div>
+                <label class="text-lg font-semibold mb-3 block">{t.category_label}</label>
+                <CategorySelector categories={data.categories} name="category" />
               </div>
-              <div class="md:col-span-1">
-                <label htmlFor="category" class="text-lg font-semibold mb-2 block">{t.category_label}</label>
-                <select
-                  id="category"
-                  name="category"
-                  required
-                  class="w-full p-3 bg-gray-200 dark:bg-gray-700 rounded-md border-2 border-gray-300 dark:border-gray-600 focus:border-purple-500 dark:focus:border-purple-500 focus:outline-none appearance-none"
-                >
-                  {data.categories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
-                </select>
-              </div>
-              <div class="md:col-span-1">
+
+              <div>
                 <button
                   type="submit"
-                  class="w-full bg-purple-500 text-white font-bold py-3 px-4 rounded-md hover:bg-purple-600 transition-colors duration-300 text-lg"
+                  class="w-full bg-sky-600 text-white font-bold py-3 px-4 rounded-md hover:bg-sky-700 transition-colors duration-300 text-lg"
                 >
                   {t.save_record_button}
                 </button>
@@ -127,7 +125,7 @@ export default function EventPage({ data, params, state }: PageProps<(EventData 
           </div>
           
           <div class="text-center">
-             <a href={`/event/${params.id}/export`} class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+             <a href={`/event/${params.id}/export`} class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
                 {t.export_csv_button}
             </a>
           </div>

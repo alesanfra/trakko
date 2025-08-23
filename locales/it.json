@@ -20,7 +20,7 @@
   "provenance_label": "Provenienza (Opzionale)",
   "provenance_placeholder": "es., Città, Nazione",
   "category_label": "Categoria",
-  "save_record_button": "Salva Registrazione",
+  "save_record_button": "Salva",
   "export_csv_button": "Esporta in CSV",
   "event_not_found": "Evento non trovato"
 }
