@@ -132,7 +132,7 @@ export default function EventPage(
                     : "bg-white dark:bg-slate-700"
                 }`}
               >
-                Add Participant
+                {t.add_participant_view}
               </a>
               <a
                 href={`/event/${params.id}?view=list`}
@@ -142,7 +142,7 @@ export default function EventPage(
                     : "bg-white dark:bg-slate-700"
                 }`}
               >
-                List Participants
+                {t.list_participants_view}
               </a>
             </div>
           </div>
@@ -178,14 +178,14 @@ export default function EventPage(
                         htmlFor="provenance"
                         class="text-lg font-semibold mb-2 block"
                       >
-                        Provenance (Optional)
+                        {t.provenance_label}
                       </label>
                       <input
                         type="text"
                         id="provenance"
                         name="provenance"
                         class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-sky-500 focus:outline-none"
-                        placeholder="e.g., City, Country"
+                        placeholder={t.provenance_placeholder}
                       />
                     </div>
                   </div>
