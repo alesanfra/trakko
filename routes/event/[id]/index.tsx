@@ -3,6 +3,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { State } from "../../../routes/_middleware.ts";
 import EventPageIsland from "../../../islands/EventPage.tsx";
+import EventNotFoundPage from "../../../islands/EventNotFoundPage.tsx";
 
 interface EventData {
   name: string;
@@ -116,9 +117,9 @@ export default function EventPage(
     return (
       <>
         <Head>
-          <title>{t.event_not_found}</title>
+          <title>{(t as Record<string, string>)["event_not_found_title"] || t.event_not_found} - {t.title}</title>
         </Head>
-        <h1>{t.event_not_found}</h1>
+        <EventNotFoundPage t={t} />
       </>
     );
   }
