@@ -70,8 +70,8 @@ export default function ParticipantsTable(
       if (response.ok) {
         // Update the local participants list if onUpdate is provided
         if (onUpdate) {
-          const updatedParticipants = participants.map(p => 
-            p.ticketNumber === editingParticipant.ticketNumber 
+          const updatedParticipants = participants.map((p) =>
+            p.ticketNumber === editingParticipant.ticketNumber
               ? { ...p, name, provenance, category }
               : p
           );

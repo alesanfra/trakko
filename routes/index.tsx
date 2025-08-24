@@ -1,6 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { State } from "./_middleware.ts";
+import CategoryManager from "../islands/CategoryManager.tsx";
 
 export default function Home(props: PageProps<null, State>) {
   const { t } = props.state;
@@ -36,17 +37,11 @@ export default function Home(props: PageProps<null, State>) {
               >
                 {t.categories_label}
               </label>
-              <input
-                type="text"
-                id="categories"
+              <CategoryManager
+                t={t}
                 name="categories"
-                defaultValue={t.default_categories}
-                class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-indigo-500 focus:outline-none"
-                placeholder={t.categories_placeholder}
+                defaultCategories={t.default_categories}
               />
-              <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                {t.categories_helper}
-              </p>
             </div>
             <button
               type="submit"

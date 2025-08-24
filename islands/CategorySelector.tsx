@@ -9,7 +9,8 @@ interface CategorySelectorProps {
 }
 
 export default function CategorySelector(
-  { categories = [], name, value, onChange, disabled = false }: CategorySelectorProps,
+  { categories = [], name, value, onChange, disabled = false }:
+    CategorySelectorProps,
 ) {
   const isControlled = value !== undefined && onChange !== undefined;
   const [internalSelected, setInternalSelected] = useState(

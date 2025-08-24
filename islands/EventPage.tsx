@@ -20,7 +20,9 @@ interface EventPageProps {
 export default function EventPage(
   { event, initialParticipants, eventId, initialView, t }: EventPageProps,
 ) {
-  const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
+  const [participants, setParticipants] = useState<Participant[]>(
+    initialParticipants,
+  );
   const [currentView, setCurrentView] = useState(initialView);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -28,8 +30,8 @@ export default function EventPage(
   const changeView = (newView: string) => {
     setCurrentView(newView);
     const url = new URL(globalThis.location.href);
-    url.searchParams.set('view', newView);
-    globalThis.history.pushState({}, '', url.toString());
+    url.searchParams.set("view", newView);
+    globalThis.history.pushState({}, "", url.toString());
   };
 
   // Handle form submission via AJAX
@@ -42,11 +44,11 @@ export default function EventPage(
 
     try {
       const response = await fetch(globalThis.location.pathname, {
-        method: 'POST',
+        method: "POST",
         body: formData,
         headers: {
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
+          "Accept": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
         },
       });
 
@@ -55,12 +57,12 @@ export default function EventPage(
         form.reset();
         // The realtime updater will handle updating the participants list
       } else {
-        console.error('Failed to add participant');
-        alert('Failed to add participant');
+        console.error("Failed to add participant");
+        alert("Failed to add participant");
       }
     } catch (error) {
-      console.error('Error adding participant:', error);
-      alert('An error occurred while adding participant');
+      console.error("Error adding participant:", error);
+      alert("An error occurred while adding participant");
     } finally {
       setIsSubmitting(false);
     }
@@ -75,12 +77,12 @@ export default function EventPage(
   useEffect(() => {
     const handlePopState = () => {
       const url = new URL(globalThis.location.href);
-      const view = url.searchParams.get('view') || 'add';
+      const view = url.searchParams.get("view") || "add";
       setCurrentView(view);
     };
 
-    globalThis.addEventListener('popstate', handlePopState);
-    return () => globalThis.removeEventListener('popstate', handlePopState);
+    globalThis.addEventListener("popstate", handlePopState);
+    return () => globalThis.removeEventListener("popstate", handlePopState);
   }, []);
 
   return (
@@ -100,7 +102,7 @@ export default function EventPage(
           <div class="flex-shrink-0 flex gap-2">
             <button
               type="button"
-              onClick={() => changeView('add')}
+              onClick={() => changeView("add")}
               class={`px-4 py-2 rounded-md text-sm font-semibold transition-colors ${
                 currentView === "add"
                   ? "bg-sky-600 text-white shadow"
@@ -111,7 +113,7 @@ export default function EventPage(
             </button>
             <button
               type="button"
-              onClick={() => changeView('list')}
+              onClick={() => changeView("list")}
               class={`px-4 py-2 rounded-md text-sm font-semibold transition-colors ${
                 currentView === "list"
                   ? "bg-sky-600 text-white shadow"
@@ -185,7 +187,9 @@ export default function EventPage(
                     disabled={isSubmitting}
                     class="w-full bg-sky-600 text-white font-bold py-3 px-4 rounded-md hover:bg-sky-700 transition-colors duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? t.saving_button || "Saving..." : t.save_record_button}
+                    {isSubmitting
+                      ? t.saving_button || "Saving..."
+                      : t.save_record_button}
                   </button>
                 </div>
               </form>

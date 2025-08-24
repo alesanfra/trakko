@@ -7,6 +7,7 @@ interface Event {
   id: string;
   name: string;
   categories: string[];
+  createdAt?: string;
 }
 
 export const handler: Handlers<{ events: Event[] } | null, State> = {
@@ -101,6 +102,12 @@ export default function AdminEventsPage(
                       <p class="text-sm text-slate-600 dark:text-slate-400">
                         {event.categories.join(", ")}
                       </p>
+                      {event.createdAt && (
+                        <p class="text-xs text-slate-500 dark:text-slate-500 mt-1">
+                          Created on:{" "}
+                          {new Date(event.createdAt).toLocaleString()}
+                        </p>
+                      )}
                     </a>
                     <DeleteEventButton
                       eventId={event.id}

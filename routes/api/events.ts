@@ -18,7 +18,11 @@ export const handler: Handlers = {
     crypto.getRandomValues(idBuffer);
     const id = encode(idBuffer);
 
-    await kv.set(["events", id], { name: eventName, categories });
+    await kv.set(["events", id], {
+      name: eventName,
+      categories,
+      createdAt: new Date().toISOString(),
+    });
 
     return new Response(null, {
       status: 303,

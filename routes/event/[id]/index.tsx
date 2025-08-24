@@ -77,16 +77,21 @@ export const handler: Handlers<
     }
 
     if (!success) {
-      return new Response(JSON.stringify({ error: "Failed to add participant after multiple attempts" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          error: "Failed to add participant after multiple attempts",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
 
     // Check if it's an AJAX request by looking at the Content-Type or Accept headers
     const acceptHeader = req.headers.get("accept") || "";
-    const isAjax = acceptHeader.includes("application/json") || 
-                   req.headers.get("x-requested-with") === "XMLHttpRequest";
+    const isAjax = acceptHeader.includes("application/json") ||
+      req.headers.get("x-requested-with") === "XMLHttpRequest";
 
     if (isAjax) {
       // Return JSON response for AJAX requests
@@ -117,7 +122,10 @@ export default function EventPage(
     return (
       <>
         <Head>
-          <title>{(t as Record<string, string>)["event_not_found_title"] || t.event_not_found} - {t.title}</title>
+          <title>
+            {(t as Record<string, string>)["event_not_found_title"] ||
+              t.event_not_found} - {t.title}
+          </title>
         </Head>
         <EventNotFoundPage t={t} />
       </>

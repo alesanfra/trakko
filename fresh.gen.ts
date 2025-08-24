@@ -18,6 +18,7 @@ import * as $event_id_created from "./routes/event/[id]/created.tsx";
 import * as $event_id_export from "./routes/event/[id]/export.ts";
 import * as $event_id_index from "./routes/event/[id]/index.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $CategoryManager from "./islands/CategoryManager.tsx";
 import * as $CategorySelector from "./islands/CategorySelector.tsx";
 import * as $DeleteEventButton from "./islands/DeleteEventButton.tsx";
 import * as $EventActions from "./islands/EventActions.tsx";
@@ -51,6 +52,7 @@ const manifest = {
     "./routes/index.tsx": $index,
   },
   islands: {
+    "./islands/CategoryManager.tsx": $CategoryManager,
     "./islands/CategorySelector.tsx": $CategorySelector,
     "./islands/DeleteEventButton.tsx": $DeleteEventButton,
     "./islands/EventActions.tsx": $EventActions,
