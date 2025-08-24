@@ -28,6 +28,7 @@ function hashParticipants(participants: Participant[]): string {
 export default function RealtimeUpdater({
   eventId,
   initialParticipants,
+  onUpdate,
 }: RealtimeUpdaterProps) {
   const [isConnected, setIsConnected] = useState(false);
   const [currentCount, setCurrentCount] = useState(initialParticipants.length);
@@ -63,16 +64,25 @@ export default function RealtimeUpdater({
 
               // Check if either count or data content has changed
               if (newCount !== currentCount || newHash !== lastDataHash) {
-                console.log("🔄 Data changed! Auto-refreshing in 1 second...");
+                console.log("🔄 Data changed! Updating participants...");
                 setCurrentCount(newCount);
                 setLastDataHash(newHash);
                 setIsRefreshing(true);
 
-                // Auto-refresh after a short delay to allow the user to see the notification
-                setTimeout(() => {
-                  console.log("🔄 Auto-refreshing page now...");
-                  globalThis.location.reload();
-                }, 1000);
+                // Update participants via callback if available, otherwise reload
+                if (onUpdate) {
+                  setTimeout(() => {
+                    console.log("🔄 Updating participants via callback...");
+                    onUpdate(data.participants);
+                    setIsRefreshing(false);
+                  }, 500);
+                } else {
+                  // Fallback to reload for backward compatibility
+                  setTimeout(() => {
+                    console.log("🔄 Auto-refreshing page now...");
+                    globalThis.location.reload();
+                  }, 1000);
+                }
               }
             }
           } catch (error) {

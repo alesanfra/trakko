@@ -7,12 +7,13 @@ interface ParticipantsTableProps {
   categories: string[];
   eventId: string;
   t: Translations;
+  onUpdate?: (participants: Participant[]) => void;
 }
 
 const ITEMS_PER_PAGE = 20;
 
 export default function ParticipantsTable(
-  { participants, categories, eventId, t }: ParticipantsTableProps,
+  { participants, categories, eventId, t, onUpdate }: ParticipantsTableProps,
 ) {
   const [currentPage, setCurrentPage] = useState(1);
   const [editingParticipant, setEditingParticipant] = useState<
@@ -67,7 +68,18 @@ export default function ParticipantsTable(
       );
 
       if (response.ok) {
-        globalThis.location.reload();
+        // Update the local participants list if onUpdate is provided
+        if (onUpdate) {
+          const updatedParticipants = participants.map(p => 
+            p.ticketNumber === editingParticipant.ticketNumber 
+              ? { ...p, name, provenance, category }
+              : p
+          );
+          onUpdate(updatedParticipants);
+        } else {
+          // Fallback to reload if no callback provided
+          globalThis.location.reload();
+        }
       } else {
         console.error("Failed to save participant data");
         alert("Failed to save participant data");

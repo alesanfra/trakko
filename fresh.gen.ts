@@ -21,6 +21,7 @@ import * as $index from "./routes/index.tsx";
 import * as $CategorySelector from "./islands/CategorySelector.tsx";
 import * as $DeleteEventButton from "./islands/DeleteEventButton.tsx";
 import * as $EventActions from "./islands/EventActions.tsx";
+import * as $EventPage from "./islands/EventPage.tsx";
 import * as $ParticipantsTable from "./islands/ParticipantsTable.tsx";
 import * as $RealtimeParticipants from "./islands/RealtimeParticipants.tsx";
 import * as $RealtimeUpdater from "./islands/RealtimeUpdater.tsx";
@@ -52,6 +53,7 @@ const manifest = {
     "./islands/CategorySelector.tsx": $CategorySelector,
     "./islands/DeleteEventButton.tsx": $DeleteEventButton,
     "./islands/EventActions.tsx": $EventActions,
+    "./islands/EventPage.tsx": $EventPage,
     "./islands/ParticipantsTable.tsx": $ParticipantsTable,
     "./islands/RealtimeParticipants.tsx": $RealtimeParticipants,
     "./islands/RealtimeUpdater.tsx": $RealtimeUpdater,
