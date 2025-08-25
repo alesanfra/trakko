@@ -9,3 +9,9 @@ export interface Participant {
   category: string;
   ticketNumber: number;
 }
+
+export interface EventRecord {
+  name: string;
+  categories: string[];
+  createdAt?: string;
+}

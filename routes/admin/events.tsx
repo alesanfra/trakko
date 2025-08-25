@@ -1,7 +1,7 @@
 /// <reference lib="deno.unstable" />
 import { FreshContext, Handlers } from "$fresh/server.ts";
 import { State } from "../_middleware.ts";
-import DeleteEventButton from "../../islands/DeleteEventButton.tsx";
+import AdminEventRowActions from "../../islands/AdminEventRowActions.tsx";
 
 interface Event {
   id: string;
@@ -127,7 +127,7 @@ export default function AdminEventsPage(
                         </p>
                       )}
                     </a>
-                    <DeleteEventButton
+                    <AdminEventRowActions
                       eventId={event.id}
                       eventName={event.name}
                     />

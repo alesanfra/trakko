@@ -9,6 +9,19 @@ export const handler: Handlers = {
     const form = await req.formData();
     const eventName = form.get("name") as string;
     const categoriesStr = form.get("categories") as string;
+
+    // Validate event name
+    if (!eventName || eventName.trim().length < 3) {
+      return new Response("Event name must be at least 3 characters long", {
+        status: 400,
+      });
+    }
+    if (eventName.trim().length > 50) {
+      return new Response("Event name must be at most 50 characters long", {
+        status: 400,
+      });
+    }
+
     const categories = categoriesStr.split(",").map((s) => s.trim()).slice(
       0,
       10,
@@ -19,7 +32,7 @@ export const handler: Handlers = {
     const id = encode(idBuffer);
 
     await kv.set(["events", id], {
-      name: eventName,
+      name: eventName.trim(),
       categories,
       createdAt: new Date().toISOString(),
     });

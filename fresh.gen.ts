@@ -11,6 +11,7 @@ import * as $admin_events from "./routes/admin/events.tsx";
 import * as $admin_index from "./routes/admin/index.tsx";
 import * as $admin_logout from "./routes/admin/logout.tsx";
 import * as $api_events from "./routes/api/events.ts";
+import * as $api_events_eventId_ from "./routes/api/events/[eventId].ts";
 import * as $api_events_eventId_tickets_ticketId_ from "./routes/api/events/[eventId]/tickets/[ticketId].ts";
 import * as $api_events_eventId_watch from "./routes/api/events/[eventId]/watch.ts";
 import * as $api_participants_eventId_ticketNumber_ from "./routes/api/participants/[eventId]/[ticketNumber].ts";
@@ -18,9 +19,11 @@ import * as $event_id_created from "./routes/event/[id]/created.tsx";
 import * as $event_id_export from "./routes/event/[id]/export.ts";
 import * as $event_id_index from "./routes/event/[id]/index.tsx";
 import * as $index from "./routes/index.tsx";
+import * as $AdminEventRowActions from "./islands/AdminEventRowActions.tsx";
 import * as $CategoryManager from "./islands/CategoryManager.tsx";
 import * as $CategorySelector from "./islands/CategorySelector.tsx";
 import * as $DeleteEventButton from "./islands/DeleteEventButton.tsx";
+import * as $EditEventModal from "./islands/EditEventModal.tsx";
 import * as $EventActions from "./islands/EventActions.tsx";
 import * as $EventNotFoundPage from "./islands/EventNotFoundPage.tsx";
 import * as $EventPage from "./islands/EventPage.tsx";
@@ -41,6 +44,7 @@ const manifest = {
     "./routes/admin/index.tsx": $admin_index,
     "./routes/admin/logout.tsx": $admin_logout,
     "./routes/api/events.ts": $api_events,
+    "./routes/api/events/[eventId].ts": $api_events_eventId_,
     "./routes/api/events/[eventId]/tickets/[ticketId].ts":
       $api_events_eventId_tickets_ticketId_,
     "./routes/api/events/[eventId]/watch.ts": $api_events_eventId_watch,
@@ -52,9 +56,11 @@ const manifest = {
     "./routes/index.tsx": $index,
   },
   islands: {
+    "./islands/AdminEventRowActions.tsx": $AdminEventRowActions,
     "./islands/CategoryManager.tsx": $CategoryManager,
     "./islands/CategorySelector.tsx": $CategorySelector,
     "./islands/DeleteEventButton.tsx": $DeleteEventButton,
+    "./islands/EditEventModal.tsx": $EditEventModal,
     "./islands/EventActions.tsx": $EventActions,
     "./islands/EventNotFoundPage.tsx": $EventNotFoundPage,
     "./islands/EventPage.tsx": $EventPage,

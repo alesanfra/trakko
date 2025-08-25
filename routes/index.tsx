@@ -24,6 +24,7 @@ export default function Home(props: PageProps<null, State>) {
                 type="text"
                 id="name"
                 name="name"
+                minLength={3}
                 maxLength={50}
                 required
                 class="w-full p-3 bg-slate-200 dark:bg-slate-700 rounded-md border-2 border-slate-300 dark:border-slate-600 focus:border-indigo-500 focus:outline-none"
