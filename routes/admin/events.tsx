@@ -19,6 +19,24 @@ export const handler: Handlers<{ events: Event[] } | null, State> = {
       events.push({ ...res.value, id: res.key[1] as string });
     }
 
+    events.sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        if (b.createdAt !== a.createdAt) {
+          return new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime();
+        }
+      }
+      if (a.createdAt && !b.createdAt) {
+        return -1;
+      }
+      if (!a.createdAt && b.createdAt) {
+        return 1;
+      }
+      return a.name.localeCompare(b.name, undefined, {
+        sensitivity: "base",
+      });
+    });
+
     return ctx.render({ events });
   },
 

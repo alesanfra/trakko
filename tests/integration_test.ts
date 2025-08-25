@@ -164,4 +164,83 @@ Deno.test("Integration Tests", async (t) => {
 
     await kv.close();
   });
+
+  await t.step("Event sorting in admin panel", async () => {
+    const kv = await Deno.openKv(":memory:");
+
+    const now = new Date();
+    const events = [
+      {
+        id: "event1",
+        name: "Alpha Event",
+        categories: ["General"],
+        createdAt: new Date(now.getTime() - 2000).toISOString(),
+      },
+      {
+        id: "event2",
+        name: "charlie Event",
+        categories: ["VIP"],
+        createdAt: new Date(now.getTime() - 1000).toISOString(),
+      },
+      { id: "event3", name: "Bravo Event", categories: ["Student"] },
+      {
+        id: "event4",
+        name: "delta Event",
+        categories: ["General"],
+        createdAt: new Date(now.getTime() - 1000).toISOString(),
+      },
+    ];
+
+    for (const event of events) {
+      await kv.set(["events", event.id], {
+        name: event.name,
+        categories: event.categories,
+        createdAt: event.createdAt,
+      });
+    }
+
+    const storedEvents: (EventData & { id: string; createdAt?: string })[] = [];
+    const iter = kv.list<EventData>({ prefix: ["events"] });
+    for await (const res of iter) {
+      if (res.value && typeof res.value === "object") {
+        storedEvents.push(
+          {
+            ...(res.value as object),
+            id: res.key[1] as string,
+          } as EventData & { id: string; createdAt?: string },
+        );
+      }
+    }
+
+    storedEvents.sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        if (b.createdAt !== a.createdAt) {
+          return new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime();
+        }
+      }
+      if (a.createdAt && !b.createdAt) {
+        return -1;
+      }
+      if (!a.createdAt && b.createdAt) {
+        return 1;
+      }
+      return a.name.localeCompare(b.name, undefined, {
+        sensitivity: "base",
+      });
+    });
+
+    assertEquals(storedEvents.map((e) => e.id), [
+      "event2",
+      "event4",
+      "event1",
+      "event3",
+    ]);
+    assertEquals(storedEvents[0].name, "charlie Event");
+    assertEquals(storedEvents[1].name, "delta Event");
+    assertEquals(storedEvents[2].name, "Alpha Event");
+    assertEquals(storedEvents[3].name, "Bravo Event");
+
+    await kv.close();
+  });
 });
